@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 6 列表循环渲染</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                msg: 'hello world',
+                listArray: ['he', 'max', 'apple'],
+                listObject: {
+                    name1: 'n1',
+                    name2: 'n2',
+                    name3: 'n3'
+                }
+            }
+        },
+        methods: {
+            handleClick() {
+                // 1. 修改数组
+                // this.listArray.push('hola');
+
+                // 2。修改对象
+                this.listObject.age=100;
+                this.listObject.heee='hhh'
+            }
+
+        },
+        template: `
+          <div v-for="item in listArray">
+          {{ item }}
+          </div>
+
+          <p>object</p>
+
+          <div v-for="(key, value) in listObject">
+          {{ key }} -- {{ value }}
+          </div>
+
+          <button @click="handleClick">add</button>
+
+        `
+    });
+
+
+    const vm = app.mount('#root');
+</script>
+</html>

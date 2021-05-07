@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 5 条件渲染</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                msg: 'hello world',
+                show: true
+            }
+        },
+        // 1. 使用v-if可以隐藏标签，它在参数为假时直接移除该dom元素
+        // 2. 使用v-show也可以，它在参数为假时给元素display: none;
+
+        // 3. 在设置一元素显示则另一元素不显示时，可以搭配v-if 和v-else,但需要贴在一起写
+        // 还有一个v-else-if也可以搭配使用
+        template: `
+          <div v-if="show">
+          {{ msg }} if
+          </div>
+          <div v-else>
+          else
+          </div>
+          <div v-show="show">
+          {{ msg }} show
+          </div>
+        `
+    });
+
+
+    const vm = app.mount('#root');
+</script>
+</html>

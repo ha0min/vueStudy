@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 2 常用模版语法</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                //<!--<strong>hello</strong>-->
+                msg: `hello world`,
+                name: 'title',
+                event: 'click'
+            }
+        },// 使用methods绑定事件
+        methods: {
+            handleClick() {
+                alert('hello');
+            }
+        },
+        // <!--          <div v-html="msg"></div>-->
+        // 1.template 中可以使用插值表达式{{}}来引用数据
+        // 2.可以在template中使用js表达式
+        // 3.常用模版
+        // <!--v-html可以将data中的数据以html的形式渲染到指定位置-->
+        // 可以使用v-bind绑定对象
+        // 使用v-once防止重复渲染，在data数据改变时可以防止展示，只渲染第一次
+        // 使用v-if来判断数据中的某个布尔变量，为真时才显示
+        // v-on 绑定事件
+        // 使用@来缩写v-on:
+        // 可以省略v-bind直接使用：来绑定对象
+        template: `
+          <!--          <div @click="handleClick" :title="msg">hello</div>
+                 可以使用中括号来引用数据实现动态绑定
+          -->
+          <!--          <div @[event]="handleClick" :[name]="msg">hello</div>-->
+          <form action="https://google.hk" @click.prevent="handleClick">
+          <button type="submit">提交</button>
+          </form>
+        `
+
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>

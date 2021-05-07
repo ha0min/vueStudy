@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 3 数据，方法，计算属性和侦听器</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                msg: 'hello world',
+                count: 2,
+                price: 5
+            }
+        },
+        // 2.computed 中的变量是将data中变量进行计算后的结果，带有缓存机制
+        // data改变，相关computed结果会随之改变，并重新渲染
+        computed: {
+            total() {
+                // return this.count * this.price;
+                return Date.now();
+            }
+        },
+        // 4. watch 用于观察一步改变
+        watch: {
+            // 5.这里监听price值的改变
+            price() {
+                setTimeout(()=>{
+                    console.log('price changed');
+                }, 3000)
+            }
+        },
+        // 1。methods中的方法都指向这个vue实例
+        methods: {
+            getTotal() {
+                //  3.使用方法也可以达到computed中变化的效果
+                // computed在源data参数未改变时不会改变
+                // 而方法随页面重新渲染就会重写熏染
+
+                // return this.count * this.price;
+                return Date.now();
+            }
+        },
+
+        template: `
+          <div>{{ msg }}{{ getTotal() }}</div>
+        `
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>
