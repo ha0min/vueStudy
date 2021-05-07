@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 3</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+</body>
+<script>
+    Vue.createApp({
+        data() {
+            return {
+                list: ['hello', 'world', 'v', 'u', 'e'],
+                content: 'hello world',
+                inputValue:''
+            }
+        },
+        methods: {
+            handleBtnClick() {
+                // this.list.push('hello');
+                this.list.push(this.inputValue);
+                this.inputValue = '';
+            }
+        },
+        template: `
+          <div>
+              <input v-model="inputValue" />
+              <button v-on:click="handleBtnClick">add</button>
+              <ul>
+                <li v-for="item of list">{{item}}</li>
+              </ul>
+          </div>
+
+        `
+    }).mount('#root')
+</script>
+</html>
