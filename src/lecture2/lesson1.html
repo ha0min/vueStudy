@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 1 生命周期</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                msg: 'hello'
+            }
+        },
+        // 实例生成之前
+        beforeCreate() {
+            console.log('beforeCreate');
+        },
+        // 实例生成之后会自动执行的函数
+        created() {
+            console.log('created');
+        },
+        // 组件内容渲染到页面之前
+        beforeMount() {
+            console.log(document.getElementById("root").innerHTML);
+            console.log('beforeMount');
+        },
+        // 数据发生变化
+        beforeUpdate() {
+            console.log('beforeUpdate');
+        },
+        // 数据发生变化，页面完成更新后
+        updated() {
+            console.log('updated');
+        },
+        // 组建内容渲染到页面之后
+        mounted() {
+            console.log(document.getElementById("root").innerHTML);
+            console.log('mounted');
+        },
+        // vue 失效
+        beforeUnmount() {
+            console.log('beforeUnmount');
+        },
+        // vue 失效时，dom销毁后
+        unmounted(){
+            console.log('unmounted');
+        },
+        template: `
+          <div>{{ msg }}</div>
+        `
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>
