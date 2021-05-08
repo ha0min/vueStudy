@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 3 单项数据流</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                counter: 1
+            }
+        },
+        methods: {},
+        // 1.给全局全局变量静态传参，在它的标签内传递
+        template: `
+          <div>
+          <test :content="counter"></test>
+          </div>
+        `
+    });
+
+    app.component('test', {
+        // 3.单向数据流的概念：自组件可以使用父组件的数据，但无法修改传递过来的数据
+        // 4. 需要修改的话，定义一个新子组件的元素，复制父组件的数据并修改子组件的数据就好了
+        props: ['content'],
+        data() {
+            return {
+                myCoun: this.content
+            }
+        },
+        // 2. 对传递的参数进行修改
+        // 无效 Attempting to mutate prop "content". Props are readonly.
+        template: `
+          <div @click="myCoun+=1">{{ myCoun }}</div>`
+    })
+
+    const vm = app.mount('#root');
+</script>
+</html>

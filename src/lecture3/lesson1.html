@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 1 组件</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+</body>
+<script>
+    // 4. 局部组件定义
+    // 需要在app前定义，否则报错
+    const counter2 = {
+        data() {
+            return {
+                count: 1
+            }
+        },
+        template: `
+          <div @click="count+=1">{{ count }}</div>`
+    }
+
+    // 5.局部组件的使用
+    // app.component('counter3',counter2);
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                msg: 'hello world',
+                counter: 1
+            }
+        },
+        // 5.局部组件的使用
+        components: {
+            // 前面为组件的定义名，使用使用，后面为组件定义名
+            // counter2: counter2,
+            // 也可以直接使用，vue会直接映射
+            counter2,
+        },
+        methods: {
+            handleClick(i, event) {
+                this.counter += i;
+                console.log(event.target);
+            }
+        },
+        // 2。组件具有复用性
+        template: `
+          <div>
+          <hello></hello>
+          <world></world>
+          <counter></counter>
+          <counter2/>
+          </div>
+        `
+    });
+
+    // 1.组件的定义
+    app.component('hello', {
+        template: '          <div>hello</div>\n'
+    })
+
+    app.component('world', {
+        template: '          <div>world</div>\n'
+    })
+
+    app.component('counter', {
+        data() {
+            return {
+                count: 1
+            }
+        },
+        template: `
+          <div @click="count+=1">{{ count }}</div>`
+    })
+
+    // 3. 组件定义后是全局的，其他组件也可以使用它，但只要定义了，就会挂载到app上，性能不高
+    app.component('counter1', {
+        template: `<counter/>`
+    })
+
+
+    const vm = app.mount('#root');
+</script>
+</html>

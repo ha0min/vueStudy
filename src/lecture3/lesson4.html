@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 4 组件事件通信</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                count: 1
+            }
+        },
+        methods: {
+            handleAddOne() {
+                this.count += 1
+            },
+
+            handleAdd(param) {
+                this.count += param
+            }
+        },
+        // 1.给全局全局变量静态传参，在它的标签内传递
+        template: `
+          <div>
+          <test :content="count" @add="handleAdd"></test>
+          </div>
+        `
+    });
+
+    app.component('test', {
+        props: ['content'],
+        emits: ['minus'],
+        methods: {
+            handleItemClick() {
+                this.$emit('add', 2);
+            }
+        },
+        template: `
+          <div @click="handleItemClick">{{ content }}</div>`
+    })
+
+    const vm = app.mount('#root');
+</script>
+</html>
