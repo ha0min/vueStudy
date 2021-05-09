@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 5 实战</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="root">
+
+</div>
+
+</body>
+<script>
+
+
+    const myPlugin = (app, options) => {
+        app.mixin({
+            created() {
+                for (let key in this.$options.rules) {
+                    const item = this.$options.rules[key];
+                    this.$watch(key, (value) => {
+                        console.log(value);
+                        const result = item.validate(value);
+                        console.log(result);
+                        if (!result) {
+                            console.log(item.message);
+                        }
+                    })
+                }
+            }
+        })
+    }
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                name: 'hh',
+                age: 23,
+                show: false
+            }
+        },
+        methods: {
+            handleClick() {
+                this.show = !this.show;
+                console.log(this.show);
+            }
+        },
+        rules: {
+            age: {
+                validate: age => age > 25,
+                message: 'too young'
+            }
+        },
+        template: `
+          <div>
+          name:{{ name }},age:{{ age }}
+          </div>
+        `
+    });
+
+
+    // app.mixin({
+    //     created() {
+    //         for (let key in this.$options.rules) {
+    //             const item = this.$options.rules[key];
+    //             this.$watch(key, (value)=>{
+    //                 console.log(value);
+    //                 const result = item.validate(value);
+    //                 console.log(result);
+    //                 if (!result){
+    //                     console.log(item.message);
+    //                 }
+    //             })
+    //         }
+    //     }
+    // })
+
+    // 3.使用插件
+    app.use(myPlugin);
+
+    const vm = app.mount('#root');
+</script>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 2 单元素的入场出场动画</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+<style>
+    /*1.入场动画，未开始时的状态*/
+    /*.v-enter-from{*/
+    /*  opacity: 0;*/
+    /*}*/
+
+    /*2.入出场动画，过渡*/
+    /*.v-enter-active, .v-leave-active{*/
+    /*  transition: opacity 3s ease;*/
+    /*}*/
+
+    /*3.入场动画，结束时的状态*/
+    /*.v-enter-to{*/
+    /*  opacity: 1;*/
+    /*}*/
+
+    /*4.出场动画，未开始时的状态,不写也可以*/
+    /*.v-leave-from{*/
+    /*  opacity: 1;*/
+    /*}*/
+
+    /*5.出场动画，结束时的状态*/
+    /*.v-leave-to{*/
+    /*  opacity: 0;*/
+    /*}*/
+
+    /*6.也可以用动画实现出场入场*/
+    @keyframes shake {
+        100% {
+            transform: translateX(0px);
+        }
+        50% {
+            transform: translateY(50px);
+        }
+        0% {
+            transform: translateX(0px);
+        }
+    }
+
+    .v-enter-active, .v-leave-active {
+        animation: shake 1s ease;
+        /*transition: all 3s ease;*/
+    }
+
+</style>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                show: false,
+                animate: {
+                    animation: false,
+                    transition: true,
+                    blue: true,
+                    yellow: false
+                }
+            }
+        },
+        methods: {
+            handleClick() {
+                this.show = !this.show;
+            },
+
+
+            handleBeforeEnter(el) {
+                el.style.color = 'red';
+            },
+
+            handleEnterActive(el, done) {
+                const animation = setInterval(() => {
+                    const color = el.style.color;
+                    if (color === "red") {
+                        el.style.color = 'green';
+                    } else {
+                        el.style.color = 'red';
+                    }
+                }, 1000);
+                setTimeout(() => {
+                    clearInterval(animation);
+                    // alert('done')
+                    done();
+                }, 3000);
+            },
+
+            handleEnterEnd() {
+                alert(123);
+            }
+        },
+        // 7。 也可以直接修改过渡的名字来引用外部的style文件
+        //   <transition
+        //     enter-active-class="waibustyle"
+        //     leave-active-class="waibustyle"
+        //   >
+
+        // 8. 也可以不用css做动画，用js做
+
+        template: `
+          <div>
+          <transition
+              :css="false"
+              @before-enter="handleBeforeEnter"
+              @enter="handleEnterActive"
+              @after-enter="handleEnterEnd"
+          >
+            <div v-if="show">hello world</div>
+          </transition>
+
+          <button @click="handleClick"> 切换</button>
+          </div>
+        `
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>

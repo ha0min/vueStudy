@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 1 Mixin 混入的基础语法</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+
+</body>
+<script>
+    const myMixin = {
+        data() {
+            return {
+                number: 2,
+                count: 222,
+            }
+        },
+        created() {
+            console.log('mixin created');
+        }
+    }
+
+    // 2. 组件data优先级高于mixin data
+    const app = Vue.createApp({
+        data() {
+            return {
+                number: 1
+            }
+        },
+        mixins: [myMixin]
+        ,
+        // 3. 生命周期函数不会被覆盖，先执行mixin的，后执行组件的
+        methods: {},
+        created() {
+            console.log('app created');
+        },
+        template: `
+          <div>
+          <div>hello world</div>
+          <child></child>
+          </div>
+        `
+    });
+
+    app.component('child', {
+
+        template:
+        // 4。子组件直接用不了
+            '<div>{{count}}</div>'
+        ,
+        // 5.需要再次注入子组件才行
+        mixins: [myMixin]
+    })
+
+    const vm = app.mount('#root');
+</script>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 8 双向绑定指令</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                msg: '',
+                counter: 1
+            }
+        },
+        methods: {},
+        // 修改输入框可以直接修改v-model绑定对象的值
+        // <!--          <input type="text" v-model="msg"/>-->
+        // <!--    <textarea v-model="msg" />-->
+
+        // radio使用value来改变v-model绑定对象的值
+        // 此时对象需要为字符串
+        // hello<input type="radio" name="hello" value="hello" v-model="msg"/>
+        // ss<input type="radio" name="hello" value="ss" v-model="msg"/>
+        // ee<input type="radio" name="hello" value="ee" v-model="msg"/>
+
+        // checkbox同样使用value来改变v-model绑定对象的值
+        // 此时对象需要为数组
+        // hello<input type="checkbox" name="hello"  value="hello" v-model="msg"/>
+        // ss<input type="checkbox" name="ss" value="ss" v-model="msg"/>
+        // ee<input type="checkbox" value="ee" v-model="msg"/>
+
+        // v-model修饰符
+        // lazy懒加载，在输入完成后失去焦点才重新渲染
+        // number，强制为数字类型保存数据
+        // trim，去除输入前后的空格
+        template: `
+          <div>
+          {{ typeof msg }}
+          {{ msg }}
+          <input type="text" v-model.lazy.number="msg"/>
+          </div>
+        `
+    });
+
+
+    const vm = app.mount('#root');
+</script>
+</html>

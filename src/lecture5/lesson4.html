@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 4 插件</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="root">
+
+</div>
+
+</body>
+<script>
+
+    // 1. 定义组件，把通用型的功能封装起来
+    const myPlugin = {
+        //2.其中 app对应传递的组件实例，options为其余参数（形式为对象）
+        install(app, options) {
+            app.provide('name', 'hhhh');
+            console.log(app, options);
+        }
+    }
+
+    const app = Vue.createApp({
+        data() {
+            return {
+                number: 1,
+                show: false
+            }
+        },
+        methods: {
+            handleClick() {
+                this.show = !this.show;
+                console.log(this.show);
+            }
+        },
+
+        template: `
+          <div class="area">
+          <my-title></my-title>
+          </div>
+        `
+    });
+
+    app.component('my-title', {
+        template: '<div>hello {{name}}</div>'
+    })
+
+    // 3.使用插件
+    app.use(myPlugin);
+
+    const vm = app.mount('#root');
+</script>
+</html>

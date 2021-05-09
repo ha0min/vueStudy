@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 1 CSS 过渡与动画效果</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+<style>
+    /*2. 直接通过css来修改*/
+    @keyframes leftToRight {
+        100% {
+            transform: translateX(0px);
+        }
+        50% {
+            transform: translateX(50px);
+        }
+        0% {
+            transform: translateX(0px);
+        }
+    }
+
+    .animation {
+        animation: leftToRight 3s;
+    }
+
+    .transition {
+        transition: 3s background-color ease;
+    }
+
+    .blue {
+        background-color: blue;
+    }
+
+    .yellow {
+        background-color: yellow;
+    }
+</style>
+</body>
+<script>
+    // 1. 过渡：从一个状态转移到另一个状态；动画：从某地移动到某地
+    const app = Vue.createApp({
+        data() {
+            return {
+                animate: {
+                    animation: false,
+                    transition: true,
+                    blue: true,
+                    yellow: false
+                }
+            }
+        },
+        methods: {
+            handleClick() {
+                // this.animate.animation = !this.animate.animation;
+                this.animate.yellow = !this.animate.yellow;
+                this.animate.blue = !this.animate.blue;
+
+            }
+        },
+        template: `
+          <div>
+          <div :class="animate">hello world</div>
+          <button @click="handleClick"> 切换</button>
+          </div>
+        `
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>

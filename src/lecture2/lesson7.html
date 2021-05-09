@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 7 事件绑定</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                msg: 'hello world',
+                counter: 1
+            }
+        },
+        methods: {
+            handleClick(i, event) {
+                this.counter += i;
+                console.log(event.target);
+            }
+        },
+        // 1.使用@click进行方法的绑定
+        // 在click参数中可以传入方法，也可以进行简单的计算
+
+        // 2。 一次绑定多个方法，可以用
+        // <button @click="handleClick(), handleClick1()">add</button>
+
+        // 3. 事件修饰符
+        // 在事件后添加一个点号就可以使用事件修饰符
+        // <button @click.stop="handleClick(2, $event)">add</button>
+        // self修饰符，用于事件触发者为自己时才触发，即没有冒泡
+        // stop 停止冒泡 ，prevent阻止默认行为，capture事件捕获（从上倒下传递），self（自己触发），once（触发一次）
+
+        // 4。按键修饰符
+        // 在keydown事件中使用
+        // enter表示只按下enter键才有用
+
+        template: `
+          <div>
+          {{ counter }}
+          <button @click.stop="handleClick(2, $event)">add</button>
+          </div>
+        `
+    });
+
+
+    const vm = app.mount('#root');
+</script>
+</html>

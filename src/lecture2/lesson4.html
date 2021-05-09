@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 4 样式绑定语法</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                msg: 'hello world',
+                classString: 'red',
+                classObject: {red: true, green: true}
+            }
+        },
+        template: `
+          <div :class="classObject">
+          {{ msg }}
+          <demo></demo>
+          </div>
+        `
+    });
+
+    app.component('demo', {
+        template: `
+        <div> single</div>
+        `
+    })
+
+    const vm = app.mount('#root');
+</script>
+</html>

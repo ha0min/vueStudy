@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 2 组件间传值及传值校验</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+</body>
+<script>
+    const app = Vue.createApp({
+        data() {
+            return {
+                // 3. 也可以用动态传参
+                msg: 'hello world',
+                counter: 1
+            }
+        },
+        methods: {},
+        // 2.给全局全局变量静态传参，在它的标签内传递
+        template: `
+          <div>
+          <test :content="counter"></test>
+          </div>
+        `
+    });
+
+    // 1. 给全局变量传参使用props属性
+    app.component('test', {
+        // 4.可以对传递参数的属性进行校验
+        props: {
+            // content:String
+            // 5. 也可以对传参进行各种设置
+            content: {
+                type: String,
+                required: true,
+                default: 234
+            }
+        },
+        template: `
+          <div>{{ content }}</div>`
+    })
+
+    const vm = app.mount('#root');
+</script>
+</html>

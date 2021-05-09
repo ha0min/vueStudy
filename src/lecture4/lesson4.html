@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 4 列表动画</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+<style>
+    .v-enter-from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    .v-enter-active, .v-leave-active {
+        transition: all ease 1s;
+    }
+
+    .v-enter-to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    .v-leave-to {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    .v-move {
+        transition: all .3s ease;
+    }
+
+    .list-item {
+        display: inline-block;
+        margin-right: 10px;
+    }
+</style>
+</body>
+<script>
+    const ComponentA = {
+        template: `<div v-if="show">hello world</div>`
+    }
+    const app = Vue.createApp({
+        data() {
+            return {
+                list: ['helo', 'jjj', 'ss', 'sww'],
+                show: false,
+                animate: {
+                    animation: false,
+                    transition: true,
+                    blue: true,
+                    yellow: false
+                }
+            }
+        },
+        methods: {
+            handleClick() {
+                this.list.unshift(this.list.length + 1)
+            },
+
+            handleItemClick(index, e) {
+                console.log(index);
+                console.log(this.list);
+                console.log(this.list.splice(index, 1));
+            }
+        },
+        template: `
+          <div>
+          <transition-group>
+            <span
+                @click="handleItemClick(index, $event)"
+                class="list-item"
+                v-for="(item,index) in list"
+                :key="item">{{ item }}</span>
+            <button @click="handleClick"> 切换</button>
+          </transition-group>
+          </div>
+        `
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>

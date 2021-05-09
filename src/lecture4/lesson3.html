@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 3 多元素的切换动画</title>
+    <script src="https://unpkg.com/vue@next"></script>
+</head>
+<body>
+<div id="root">
+
+</div>
+<style>
+    .v-enter-from {
+        opacity: 0;
+    }
+
+    .v-enter-active, .v-leave-active {
+        transition: opacity ease 1s;
+    }
+
+    .v-enter-to {
+        opacity: 1;
+    }
+
+    .v-leave-to {
+        opacity: 0;
+    }
+</style>
+</body>
+<script>
+    const ComponentA = {
+        template: `<div v-if="show">hello world</div>`
+    }
+    const app = Vue.createApp({
+        data() {
+            return {
+                show: false,
+                animate: {
+                    animation: false,
+                    transition: true,
+                    blue: true,
+                    yellow: false
+                }
+            }
+        },
+        methods: {
+            handleClick() {
+                this.show = !this.show;
+            }
+        },
+        template: `
+          <div>
+          <transition mode="out-in" appear>
+            <div v-if="show">hello world</div>
+            <div v-else="show">bye world</div>
+          </transition>
+
+          <button @click="handleClick"> 切换</button>
+          </div>
+        `
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>
