@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 1 setup函数的使用</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="root">
+
+</div>
+
+</body>
+<script>
+
+    const app = Vue.createApp({
+        // 1.写一个setup函数，它在created实例被完全初始化前执行
+        setup(pros, context) {
+            return {
+                name: 'hello',
+                handleClick: () => {
+                    alert(123)
+                },
+                // 2. 无法使用this关键字，因为app实例还没创建
+                // this.hello(),
+            }
+        },
+        methods: {
+            hello() {
+                alert('methods')
+            }
+        },
+        template: `
+          <div>
+          <div @click="handleClick">{{ name }}</div>
+          </div>
+        `,
+
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 1 ref，reactive 响应式引用</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="root">
+
+</div>
+
+</body>
+<script>
+
+    const app = Vue.createApp({
+
+        // 1.设置一个ref变量
+        setup(pros, context) {
+            // 2.对普通变量设置定时器，到期不会改变，不会重写渲染
+            let text = 'hello';
+            // 3. 设置一个ref变量，它处理基础类型的数据
+            // 首先需要导入
+            const {ref} = Vue;
+            // 原理是通过proxy对数据进行封装，当数据变化时，触发模版等内容的更新
+            // proxy, 'ref hello'变成proxy({value:'ref hello'})这样的响应式引用
+            let reftext = ref('ref hello');
+            setTimeout(() => {
+                // text = 'world';
+                // 4. 注意ref为对象模式，需要使用对象属性修改
+                reftext.value = 'ref world';
+
+                // 5。 这样不行
+                // reftext = ref('ref world');
+            }, 3000);
+
+            // 6. 对于复杂类型的数据，可以使用reactive
+            // 首先需要导入
+            const {reactive} = Vue;
+            // 原理是通过proxy对数据进行封装，当数据变化时，触发模版等内容的更新
+            // proxy, 'ref hello'变成proxy({value:'ref hello'})这样的响应式引用
+            let refobj = reactive({hello: 'world'});
+            setTimeout(() => {
+                // 7. 注意为对象模式，需要使用对象属性修改
+                refobj.hello = 'refobj world';
+            }, 3000);
+
+            // 9.新的api readonly 在创建后不允许修改（但这样还要响应是作甚）
+            // 10. 新的api toRefs，可以对reactive做解构
+            const {toRefs} = Vue;
+            let {hello} = toRefs(refobj);
+            setTimeout(() => {
+                // 10. 注意变成proxy({value:'ref hello'})为对象模式，需要使用对象属性修改
+                // 11。 这里修改的hello值和之前的obj还是绑定的，两者会一起修改
+                hello.value = 'torefobj world';
+            }, 4000);
+
+            // 12. 新的api toRef,区别是如果原来的对象里面没有对应参数，可以设置默认值为空值
+            const {toRef} = Vue;
+            let age = toRef(refobj, 'age');
+            setTimeout(() => {
+                age.value = 'torefobj age';
+            }, 4000);
+            return {
+                text, reftext, refobj, hello, age
+            }
+        },
+        methods: {
+            hello() {
+                alert('methods')
+            }
+        },
+        template: `
+          <div>
+          <div @click="hello">{{ text }}</div>
+          <!--          // 8.这里使用reactive object需要引用属性，ref不用（会自动调用）-->
+          <div>{{ reftext }}</div>
+          <div>{{ refobj.hello }}</div>
+          <div>{{ hello }}</div>
+          <div>{{ age }}</div>
+
+          <child></child>
+          </div>
+        `,
+    });
+
+
+    // 13. context内容
+    app.component('test', {
+        template: `
+          <div>child</div>
+        `,
+        setup(pros, context) {
+            const {attrs, slots, emit} = context;
+
+        }
+    })
+
+    const vm = app.mount('#root');
+</script>
+</html>
