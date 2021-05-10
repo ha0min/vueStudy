@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 5 watch 和 watchEffect</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="root">
+
+</div>
+
+</body>
+<script>
+
+    const app = Vue.createApp({
+        setup(pros, context) {
+
+            // 1. watch属性和监听器watch是一样的，
+            // 具备惰性,初次加载不会执行
+            const {ref, watch,} = Vue;
+
+            let inputValue = ref('');
+
+            // 2. watch接受两个参数
+            // 第一个是监听的参数
+            // 第二个是回调函数，其中有默认参数现在值和之前值currentValue,prevValue
+            watch(inputValue, (currentValue, prevValue) => {
+                console.log(currentValue, prevValue);
+            })
+
+            // 3. watchEffect偏向于effect的改变
+            const {watchEffect} = Vue;
+
+            // 4。不需要传递需要监听的内容，在函数体中如果用了外部参数就可以自动感知
+            // 它获取不到之前值
+            watchEffect(() => {
+                console.log("watchEffect", inputValue.value);
+            })
+            const handleClick = () => {
+                inputValue.value += 1;
+            };
+
+            return {
+                inputValue, handleClick
+            }
+        },
+        methods: {},
+        template: `
+          <div>
+          <div>
+            name:<input type="text" v-model="inputValue"/>
+          </div>
+          <div>
+            name is {{ inputValue }}
+          </div>
+          </div>
+        `,
+
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>

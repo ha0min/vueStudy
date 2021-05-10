@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 6 生命周期函数的新写法</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="root">
+
+</div>
+
+</body>
+<script>
+
+    const app = Vue.createApp({
+        setup(pros, context) {
+
+            // 1.
+            const {onBeforeMount, onMounted,} = Vue;
+
+            onBeforeMount(() => {
+                console.log('onBeforeMount')
+            });
+
+            onMounted(() => {
+                console.log('onMounted');
+            })
+
+            return {}
+        },
+        methods: {},
+        template: `
+          <div>
+          hello
+          </div>
+        `,
+
+    });
+
+    const vm = app.mount('#root');
+</script>
+</html>

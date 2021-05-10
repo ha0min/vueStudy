@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>lesson 7 Provide,Inject,模版 Ref</title>
+    <script src="https://unpkg.com/vue@next"></script>
+    <style>
+
+    </style>
+</head>
+<body>
+<div id="root">
+
+</div>
+
+</body>
+<script>
+
+    const app = Vue.createApp({
+        setup(pros, context) {
+
+            // 1.
+            const {ref, provide, watchEffect} = Vue;
+
+            provide('text', 'world');
+            let reftext = ref('hello');
+            provide('reftext', reftext);
+
+            watchEffect(() => {
+                console.log(reftext.value, ' changed');
+            })
+            return {}
+        },
+        methods: {},
+        template: `
+          <div>
+          <child></child>
+          </div>
+        `,
+
+    });
+
+    app.component('child', {
+        setup() {
+            const {inject} = Vue;
+            let text = inject('text');
+            let reftext = inject('reftext');
+            return {
+                text, reftext
+            }
+        },
+        template: `
+          <div>text -- {{ text }}</div>
+          <div>ref -- {{ reftext }}</div>
+
+        `
+    })
+
+    const vm = app.mount('#root');
+</script>
+</html>
